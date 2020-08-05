@@ -39,8 +39,22 @@ $ virsh console rhel8
                       --enable=openstack-15-for-rhel-8-x86_64-rpms
 [root@localhost ~]# yum install -y mdadm    
 [root@localhost ~]# tar cJvf CentOS-75-el-x86_64-minimal.tar.xz --exclude=/dev --exclude=/proc --exclude=/sys --exclude=/CentOS-75-el-x86_64-minimal.tar.xz /
+[root@localhost ~]# ssh-keygen
+[root@localhost ~]# cat .ssh/id_rsa.pub
+```
+now copy the output of the last command (starting with `ssh-rsa` and ending with `root@localhost.localdomain`) and paste it into the authorized_keys file on your Hetzner server running in rescue mode
+```
+root@rescue ~ # cat >> .ssh/authorized_keys <<EOF
+[paste your copied key here]
+EOF
+```
+from your RHEL virtual system now run
+```
 [root@localhost ~]# scp CentOS-75-el-x86_64-minimal.tar.xz root@hetzner_ip:/root
-[root@localhost ~]# cat > config.txt <<EOF
+```
+in your Hetzner server run (adapt the following content to your needs)
+```
+root@rescue#  cat > config.txt <<EOF
 DRIVE1 /dev/sda 
 DRIVE2 /dev/sdb 
 SWRAID 1 
@@ -57,4 +71,8 @@ LV vg0 tmp /tmp ext4 30G
 
 IMAGE /root/CentOS-75-el-x86_64-minimal.tar.xz
 EOF
+```
+and finally let the Hetzner installation tool install your RHEL system
+```
+installimage -a -c config.txt
 ```
