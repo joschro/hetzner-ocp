@@ -29,7 +29,7 @@ http://boernig.de/wordpress/2018/07/03/running-rhel-on-hetzner-hosted-servers/
                       --enable=rhel-8-for-x86_64-highavailability-rpms \
                       --enable=ansible-2.9-for-rhel-8-x86_64-rpms \
                       --enable=openstack-15-for-rhel-8-x86_64-rpms
-[root@localhost ~]# yum install -y mdadm    
+[root@localhost ~]# yum install -y mdadm tar screen vim
 [root@localhost ~]# tar cJvf CentOS-75-el-x86_64-minimal.tar.xz --exclude=/dev --exclude=/proc --exclude=/sys --exclude=/root/CentOS-75-el-x86_64-minimal.tar.xz /
 [root@localhost ~]# ssh-keygen
 [root@localhost ~]# cat .ssh/id_rsa.pub
@@ -68,4 +68,8 @@ EOF
 ```
 installimage -a -c config.txt
 ```
-* after the installation (you can safely ignore the error
+* after the installation (you can safely ignore the error about CentOS specific functions in case you haven't subscribed the RHEL system yet), run
+```
+yum -y update
+```
+
