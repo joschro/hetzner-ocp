@@ -13,20 +13,12 @@ https://keithtenzer.com/2019/10/24/how-to-create-a-rhel-8-image-for-hetzner-root
 and
 http://boernig.de/wordpress/2018/07/03/running-rhel-on-hetzner-hosted-servers/
 
-* download "Red Hat Enterprise Linux 8.2 Update KVM Guest Image" from https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.2/x86_64/product-software
-* run
+* download "Red Hat Enterprise Linux 8.2 Binary DVD" from https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.2/x86_64/product-software
+* create a virtual machine based on the downloaded ISO 
+* login into the virtual RHEL system and run
 ```
-$ virt-customize -a <qcow2 image file name> --root-password password:<password> --uninstall cloud-init
-```
-* import the image into virt-manager naming it rhel8 (you can choose a value for RAM as low as 4GB)
-* login with
-```
-$ virsh console rhel8
-```
-* in the virtual RHEL system run
-```
-[root@localhost ~]# rm /boot/vmlinuz-0-rescue-adcc72dfe3ed4c049ffff0ec950a90d9
-[root@localhost ~]# rm /boot/initramfs-0-rescue-adcc72dfe3ed4c049ffff0ec950a90d9.img
+[root@localhost ~]# rm /boot/vmlinuz-0-rescue-*
+[root@localhost ~]# rm /boot/initramfs-0-rescue-*.img
 [root@localhost ~]# ln -s /usr/bin/dracut /sbin/dracut
 [root@localhost ~]# subscription-manager register
 [root@localhost ~]# subscription-manager attach
